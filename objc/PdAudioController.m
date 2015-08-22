@@ -42,7 +42,7 @@
 @synthesize audioUnit = audioUnit_;
 
 - (id)init {
-	self = [self initWithAudioUnit:[[[PdAudioUnit alloc] init] autorelease]];
+	self = [self initWithAudioUnit:[[PdAudioUnit alloc] init] ];
 	return self;
 }
 
@@ -86,7 +86,6 @@
 
 - (void)dealloc {
 	self.audioUnit = nil;
-	[super dealloc];
 }
 
 - (PdAudioStatus)configurePlaybackWithSampleRate:(int)sampleRate

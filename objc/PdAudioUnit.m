@@ -47,7 +47,6 @@ static const AudioUnitElement kOutputElement = 0;
 
 - (void)dealloc {
 	[self destroyAudioUnit];
-	[super dealloc];
 }
 
 #pragma mark - Public Methods
@@ -157,7 +156,7 @@ static OSStatus AudioRenderCallback(void *inRefCon,
                                     UInt32 inNumberFrames,
                                     AudioBufferList *ioData) {
 	
-	PdAudioUnit *pdAudioUnit = (PdAudioUnit *)inRefCon;
+	PdAudioUnit *pdAudioUnit = (__bridge PdAudioUnit *)inRefCon;
 	Float32 *auBuffer = (Float32 *)ioData->mBuffers[0].mData;
 	
 	if (pdAudioUnit->inputEnabled_) {
@@ -220,7 +219,7 @@ static OSStatus AudioRenderCallback(void *inRefCon,
 	
 	AURenderCallbackStruct callbackStruct;
 	callbackStruct.inputProc = self.renderCallback;
-	callbackStruct.inputProcRefCon = self;
+	callbackStruct.inputProcRefCon = (__bridge void * __nullable)(self);
 	AU_RETURN_FALSE_IF_ERROR(AudioUnitSetProperty(audioUnit_,
                                                   kAudioUnitProperty_SetRenderCallback,
                                                   kAudioUnitScope_Input,
